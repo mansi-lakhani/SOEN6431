@@ -24,6 +24,11 @@ public class CommandInputMap
 		commandsParameterMap.put(Constants.SLOTS_NUMBER_FOR_CARS_WITH_COLOR, 1);
 		commandsParameterMap.put(Constants.SLOTS_NUMBER_FOR_REG_NUMBER, 1);
 	}
+
+	// Private constructor to prevent instantiation from outside the class
+    private CommandInputMap() {
+       
+    }
 	
 	/**
 	 * @return the commandsParameterMap
@@ -34,8 +39,7 @@ public class CommandInputMap
 	}
 	
 	/**
-	 * @param commandsParameterMap
-	 *            the commandsParameterMap to set
+	 * @param commandsParameterMap the commandsParameterMap to set
 	 */
 	public static void addCommand(String command, int parameterCount)
 	{

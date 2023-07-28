@@ -9,10 +9,10 @@ import io.gojek.parkinglot.exception.ParkingException;
 import io.gojek.parkinglot.processor.AbstractProcessor;
 import io.gojek.parkinglot.processor.RequestProcessor;
 import io.gojek.parkinglot.service.impl.ParkingServiceImpl;
-
+import java.util.logging.Logger;
 
 public class Main {
-
+	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 	public static void main(String[] args) {
 		AbstractProcessor processor = new RequestProcessor();
 		processor.setService(new ParkingServiceImpl());
@@ -32,11 +32,10 @@ public class Main {
 					fileMode(args[0]);
 					break;
 				default:
-					System.out.println("Invalid input. Usage Style: java -jar <jar_file_path> <input_file_path>");
+					LOGGER.info("Invalid input. Usage Style: java -jar <jar_file_path> <input_file_path>");
 			}
 		} catch (ParkingException e) {
 			e.printStackTrace();
-			System.out.println(e.getMessage());
 		} finally {
 			// Existing code
 		}
@@ -49,8 +48,8 @@ public class Main {
 		BufferedReader bufferReader = null;
 		String input = null;
 		try {
-			System.out.println("Please Enter 'exit' to end Execution");
-			System.out.println("Input:");
+			LOGGER.info("Please Enter 'exit' to end Execution");
+			LOGGER.info("Input:");
 			while (true) {
 				bufferReader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
 				input = bufferReader.readLine().trim();

@@ -122,6 +122,7 @@ public class Main
 			{
 			}
 		}
+	System.err.println("This is an error message.");
 	}
 	
 	private static void printUsage()

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package io.gojek.parkinglot.processor;
 
@@ -11,18 +11,23 @@ import io.gojek.parkinglot.service.AbstractService;
 import io.gojek.parkinglot.service.ParkingService;
 
 /**
- * 
+ *
  * @author vaibhav
+ */
+
+/**
+ * A class that implements the AbstractProcessor interface to process requests related to the parking system.
+ * This class is responsible for processing various actions and commands associated with the parking system.
  */
 public class RequestProcessor implements AbstractProcessor
 {
 	private ParkingService parkingService;
-	
+
 	public void setParkingService(ParkingService parkingService) throws ParkingException
 	{
 		this.parkingService = parkingService;
 	}
-	
+
 	@Override
 	public void execute(String input) throws ParkingException
 	{
@@ -73,7 +78,7 @@ public class RequestProcessor implements AbstractProcessor
 				break;
 		}
 	}
-	
+
 	@Override
 	public void setService(AbstractService service)
 	{

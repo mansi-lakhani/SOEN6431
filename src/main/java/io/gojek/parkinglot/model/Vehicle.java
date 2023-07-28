@@ -19,7 +19,7 @@ import java.io.ObjectOutput;
  * <p>The Externalizable interface is used for controlling the serialization and
  * deserialization of the Vehicle objects
  */
-public abstract class Vehicle implements Externalizable
+protected abstract class Vehicle implements Externalizable
 {
 	/**
 	 * Constructs a new Vehicle object with default values.

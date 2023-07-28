@@ -10,10 +10,7 @@ import io.gojek.parkinglot.processor.AbstractProcessor;
 import io.gojek.parkinglot.processor.RequestProcessor;
 import io.gojek.parkinglot.service.impl.ParkingServiceImpl;
 
-/**
- * Hello world!
- *
- */
+
 public class Main
 {
 	public static void main(String[] args)

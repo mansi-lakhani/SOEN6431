@@ -19,10 +19,10 @@ public class Main {
 		BufferedReader bufferReader = null;
 		String input = null;
 		try {
-			System.out.println("\n\n\n\n\n");
-			System.out.println("===================================================================");
-			System.out.println("===================      GOJEK PARKING LOT     ====================");
-			System.out.println("===================================================================");
+			LOGGER.info("\n\n\n\n\n");
+			LOGGER.info("===================================================================");
+			LOGGER.info("===================      GOJEK PARKING LOT     ====================");
+			LOGGER.info("===================================================================");
 			printUsage();
 			switch (args.length) {
 				case 0:
@@ -35,11 +35,11 @@ public class Main {
 					LOGGER.info("Invalid input. Usage Style: java -jar <jar_file_path> <input_file_path>");
 			}
 		} catch (ParkingException e) {
-			e.printStackTrace();
+			LOGGER.warning(e.getMessage());
 		} finally {
 			// Existing code
 		}
-		System.err.println("This is an error message.");
+		LOGGER.warning("This is an error message.");
 	}
 
 	private static void interactiveMode() throws ParkingException {
@@ -90,7 +90,7 @@ public class Main {
 				if (processor.validate(input)) {
 					processor.execute(input);
 				} else {
-					System.out.println("Incorrect Command Found at line: " + lineNo + " ,Input: " + input);
+					LOGGER.info("Incorrect Command Found at line: " + lineNo + " ,Input: " + input);
 				}
 				lineNo++;
 			}
@@ -105,7 +105,7 @@ public class Main {
 
 			}
 		}
-		System.err.println("This is an error message.");
+		LOGGER.warning("This is an error message.");
 	}
 
 	//printUsage method

@@ -17,10 +17,10 @@ import io.gojek.parkinglot.model.strategy.NearestFirstParkingStrategy;
 import io.gojek.parkinglot.model.strategy.ParkingStrategy;
 
 /**
- * This class is a singleton class to manage the data of parking system
- * 
- * @author vaibhav
- * @param <T>
+ This class is a singleton responsible for managing the data of the parking system.
+ * It provides methods to handle parking lot information, vehicle data, and other related details.
+ *
+ * Author: Vaibhav
  */
 public class MemoryParkingLevelManager<T extends Vehicle> implements ParkingLevelDataManager<T>
 {

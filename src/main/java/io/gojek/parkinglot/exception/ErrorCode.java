@@ -4,9 +4,10 @@
 package io.gojek.parkinglot.exception;
 
 /**
- * @author vaibhav
- *
- */
+ * Constructs an error message.
+*
+* @param message The error message that describes the reason for this Exception.
+*/
 public enum ErrorCode
 {
 	PARKING_ALREADY_EXIST("Sorry Parking Already Created, It CAN NOT be again recreated."), PARKING_NOT_EXIST_ERROR(

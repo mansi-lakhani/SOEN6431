@@ -11,125 +11,109 @@ import io.gojek.parkinglot.processor.RequestProcessor;
 import io.gojek.parkinglot.service.impl.ParkingServiceImpl;
 
 
-public class Main
-{
-	public static void main(String[] args)
-	{
+public class Main {
+
+	public static void main(String[] args) {
 		AbstractProcessor processor = new RequestProcessor();
 		processor.setService(new ParkingServiceImpl());
 		BufferedReader bufferReader = null;
 		String input = null;
-		try
-		{
+		try {
 			System.out.println("\n\n\n\n\n");
 			System.out.println("===================================================================");
 			System.out.println("===================      GOJEK PARKING LOT     ====================");
 			System.out.println("===================================================================");
 			printUsage();
-			switch (args.length)
-			{
-				case 0: // Interactive: command-line input/output
-				{
-					System.out.println("Please Enter 'exit' to end Execution");
-					System.out.println("Input:");
-					while (true)
-					{
-						try
-						{
-							bufferReader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
-							input = bufferReader.readLine().trim();
-							if (input.equalsIgnoreCase("exit"))
-							{
-								break;
-							}
-							else
-							{
-								if (processor.validate(input))
-								{
-									try
-									{
-										processor.execute(input.trim());
-									}
-									catch (ParkingException e)
-									{
-										System.out.println(e.getMessage());
-									}
-								}
-								else
-								{
-									printUsage();
-								}
-							}
-						}
-						catch (IOException e)
-						{
-							throw new ParkingException(ErrorCode.INVALID_REQUEST.getMessage(), e);
-						}
-					}
+			switch (args.length) {
+				case 0:
+					interactiveMode();
 					break;
-				}
-				case 1:// File input/output
-				{
-					File inputFile = new File(args[0]);
-					try
-					{
-						bufferReader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8));
-						int lineNo = 1;
-						while ((input = bufferReader.readLine()) != null)
-						{
-							input = input.trim();
-							if (processor.validate(input))
-							{
-								try
-								{
-									processor.execute(input);
-								}
-								catch (IllegalFormatException e)
-								{
-									System.out.println(e.getMessage());
-								}
-							}
-							else {
-								System.out.println("Incorrect Command Found at line: " + lineNo + " ,Input: " + input);
-							}
-							lineNo++;
-						}
-					}
-					catch (IOException e)
-					{
-						throw new ParkingException(ErrorCode.INVALID_FILE.getMessage(), e);
-					}
+				case 1:
+					fileMode(args[0]);
 					break;
-				}
 				default:
 					System.out.println("Invalid input. Usage Style: java -jar <jar_file_path> <input_file_path>");
 			}
-		}
-		catch (ParkingException e)
-		{
+		} catch (ParkingException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
+		} finally {
+			// Existing code
 		}
-		finally
-		{
-			try
-			{
+		System.err.println("This is an error message.");
+	}
+
+	private static void interactiveMode() throws ParkingException {
+		AbstractProcessor processor = new RequestProcessor();
+		processor.setService(new ParkingServiceImpl());
+		BufferedReader bufferReader = null;
+		String input = null;
+		try {
+			System.out.println("Please Enter 'exit' to end Execution");
+			System.out.println("Input:");
+			while (true) {
+				bufferReader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
+				input = bufferReader.readLine().trim();
+				if (input.equalsIgnoreCase("exit")) {
+					break;
+				} else {
+					if (processor.validate(input)) {
+						processor.execute(input.trim());
+					} else {
+						printUsage();
+					}
+				}
+			}
+		} catch (IOException e) {
+			throw new ParkingException(ErrorCode.INVALID_REQUEST.getMessage(), e);
+		} finally {
+			try {
 				if (bufferReader != null) {
 					bufferReader.close();
 				}
-			}
-			catch (IOException e)
-			{
+			} catch (IOException e) {
+
 			}
 		}
-	System.err.println("This is an error message.");
 	}
-	
-	private static void printUsage()
-	{
+
+	private static void fileMode(String filePath) throws ParkingException {
+		AbstractProcessor processor = new RequestProcessor();
+		processor.setService(new ParkingServiceImpl());
+		BufferedReader bufferReader = null;
+		String input = null;
+		try {
+			File inputFile = new File(filePath);
+			bufferReader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8));
+			int lineNo = 1;
+			while ((input = bufferReader.readLine()) != null) {
+				input = input.trim();
+				if (processor.validate(input)) {
+					processor.execute(input);
+				} else {
+					System.out.println("Incorrect Command Found at line: " + lineNo + " ,Input: " + input);
+				}
+				lineNo++;
+			}
+		} catch (IOException e) {
+			throw new ParkingException(ErrorCode.INVALID_FILE.getMessage(), e);
+		} finally {
+			try {
+				if (bufferReader != null) {
+					bufferReader.close();
+				}
+			} catch (IOException e) {
+
+			}
+		}
+		System.err.println("This is an error message.");
+	}
+
+	//printUsage method
+	private static void printUsage() {
 		StringBuffer buffer = new StringBuffer();
 		buffer = buffer.append(
-				"--------------Please Enter one of the below commands. {variable} to be replaced -----------------------")
+						"--------------Please Enter one of the below commands. {variable} to be replaced -----------------------")
 				.append("\n");
 		buffer = buffer.append("A) For creating parking lot of size n               ---> create_parking_lot {capacity}")
 				.append("\n");
@@ -140,13 +124,13 @@ public class Main
 				.append("\n");
 		buffer = buffer.append("D) Print status of parking slot                     ---> status").append("\n");
 		buffer = buffer.append(
-				"E) Get cars registration no for the given car color ---> registration_numbers_for_cars_with_color {car_color}")
+						"E) Get cars registration no for the given car color ---> registration_numbers_for_cars_with_color {car_color}")
 				.append("\n");
 		buffer = buffer.append(
-				"F) Get slot numbers for the given car color         ---> slot_numbers_for_cars_with_color {car_color}")
+						"F) Get slot numbers for the given car color         ---> slot_numbers_for_cars_with_color {car_color}")
 				.append("\n");
 		buffer = buffer.append(
-				"G) Get slot number for the given car number         ---> slot_number_for_registration_number {car_number}")
+						"G) Get slot number for the given car number         ---> slot_number_for_registration_number {car_number}")
 				.append("\n");
 		System.out.println(buffer.toString());
 	}

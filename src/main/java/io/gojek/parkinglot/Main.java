@@ -1,10 +1,8 @@
 package io.gojek.parkinglot;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.IllegalFormatException;
 
 import io.gojek.parkinglot.exception.ErrorCode;
 import io.gojek.parkinglot.exception.ParkingException;
@@ -41,7 +39,7 @@ public class Main
 					{
 						try
 						{
-							bufferReader = new BufferedReader(new InputStreamReader(System.in));
+							bufferReader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
 							input = bufferReader.readLine().trim();
 							if (input.equalsIgnoreCase("exit"))
 							{
@@ -55,7 +53,7 @@ public class Main
 									{
 										processor.execute(input.trim());
 									}
-									catch (Exception e)
+									catch (ParkingException e)
 									{
 										System.out.println(e.getMessage());
 									}
@@ -66,7 +64,7 @@ public class Main
 								}
 							}
 						}
-						catch (Exception e)
+						catch (IOException e)
 						{
 							throw new ParkingException(ErrorCode.INVALID_REQUEST.getMessage(), e);
 						}
@@ -78,7 +76,7 @@ public class Main
 					File inputFile = new File(args[0]);
 					try
 					{
-						bufferReader = new BufferedReader(new FileReader(inputFile));
+						bufferReader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8));
 						int lineNo = 1;
 						while ((input = bufferReader.readLine()) != null)
 						{
@@ -89,17 +87,18 @@ public class Main
 								{
 									processor.execute(input);
 								}
-								catch (Exception e)
+								catch (IllegalFormatException e)
 								{
 									System.out.println(e.getMessage());
 								}
 							}
-							else
+							else {
 								System.out.println("Incorrect Command Found at line: " + lineNo + " ,Input: " + input);
+							}
 							lineNo++;
 						}
 					}
-					catch (Exception e)
+					catch (IOException e)
 					{
 						throw new ParkingException(ErrorCode.INVALID_FILE.getMessage(), e);
 					}
@@ -118,8 +117,9 @@ public class Main
 		{
 			try
 			{
-				if (bufferReader != null)
+				if (bufferReader != null) {
 					bufferReader.close();
+				}
 			}
 			catch (IOException e)
 			{

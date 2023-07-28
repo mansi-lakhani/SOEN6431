@@ -59,8 +59,9 @@ public class MemoryParkingLevelManager<T extends Vehicle> implements ParkingLeve
 		this.capacity.set(capacity);
 		this.availability.set(capacity);
 		this.parkingStrategy = parkingStrategy;
-		if (parkingStrategy == null)
+		if (parkingStrategy == null) {
 			parkingStrategy = new NearestFirstParkingStrategy();
+		}
 		slotVehicleMap = new ConcurrentHashMap<>();
 		for (int i = 1; i <= capacity; i++)
 		{
@@ -80,9 +81,9 @@ public class MemoryParkingLevelManager<T extends Vehicle> implements ParkingLeve
 		else
 		{
 			availableSlot = parkingStrategy.getSlot();
-			if (slotVehicleMap.containsValue(Optional.of(vehicle)))
+			if (slotVehicleMap.containsValue(Optional.of(vehicle))) {
 				return Constants.VEHICLE_ALREADY_EXIST;
-			
+			}
 			slotVehicleMap.put(availableSlot, Optional.of(vehicle));
 			availability.decrementAndGet();
 			parkingStrategy.removeSlot(availableSlot);
@@ -93,8 +94,9 @@ public class MemoryParkingLevelManager<T extends Vehicle> implements ParkingLeve
 	@Override
 	public boolean leaveCar(int slotNumber)
 	{
-		if (!slotVehicleMap.get(slotNumber).isPresent()) // Slot already empty
+		if (!slotVehicleMap.get(slotNumber).isPresent()) { // Slot already empty
 			return false;
+		}
 		availability.incrementAndGet();
 		parkingStrategy.add(slotNumber);
 		slotVehicleMap.put(slotNumber, Optional.empty());

@@ -37,18 +37,12 @@ public class MemoryParkingLevelManager<T extends Vehicle> implements ParkingLeve
 	private static MemoryParkingLevelManager instance = null;
 	
 	@SuppressWarnings("unchecked")
-	public static <T extends Vehicle> MemoryParkingLevelManager<T> getInstance(int level, int capacity,
+	public static synchronized <T extends Vehicle> MemoryParkingLevelManager<T>  getInstance(int level, int capacity,
 			ParkingStrategy parkingStrategy)
 	{
 		if (instance == null)
 		{
-			synchronized (MemoryParkingLevelManager.class)
-			{
-				if (instance == null)
-				{
-					instance = new MemoryParkingLevelManager<T>(level, capacity, parkingStrategy);
-				}
-			}
+				instance = new MemoryParkingLevelManager<T>(level, capacity, parkingStrategy);
 		}
 		return instance;
 	}

@@ -3,8 +3,9 @@
  */
 package io.gojek.parkinglot.constants;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 /**
  * @author vaibhav
@@ -12,7 +13,7 @@ import java.util.Map;
  */
 public class CommandInputMap
 {
-	private static volatile Map<String, Integer> commandsParameterMap = new HashMap<String, Integer>();
+	private static volatile ConcurrentHashMap<String, Integer> commandsParameterMap = new ConcurrentHashMap<String, Integer>();
 	
 	static
 	{

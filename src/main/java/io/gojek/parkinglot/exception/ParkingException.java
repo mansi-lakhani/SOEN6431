@@ -11,8 +11,8 @@ public class ParkingException extends Exception
 {
 	private static final long serialVersionUID = -3552275262672621625L;
 	
-	private String		errorCode		= null;	// this will hold system defined error code
-	private Object[]	errorParameters	= null;	// this will hold parameters for error code/message
+	private final String	errorCode		= null;	// this will hold system defined error code
+	private final Object[]	errorParameters	= null;	// this will hold parameters for error code/message
 	
 	/**
 	  * @param message The error message that describes the reason for the exception.
